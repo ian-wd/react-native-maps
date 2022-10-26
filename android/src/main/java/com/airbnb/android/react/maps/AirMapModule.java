@@ -377,4 +377,31 @@ public class AirMapModule extends ReactContextBaseJavaModule {
       }
     });
   }
+
+  @ReactMethod
+  public void resetMap(final int tag, final Promise promise) {
+    final ReactApplicationContext context = getReactApplicationContext();
+
+    UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+    uiManager.addUIBlock(new UIBlock()
+    {
+      @Override
+      public void execute(NativeViewHierarchyManager nvhm)
+      {
+        AirMapView view = (AirMapView) nvhm.resolveView(tag);
+        if (view == null) {
+          promise.reject("AirMapView not found");
+          return;
+        }
+        if (view.map == null) {
+          promise.reject("AirMapView.map is not valid");
+          return;
+        }
+
+        view.resetMap();
+
+        promise.resolve(true);
+      }
+    });
+  }
 }

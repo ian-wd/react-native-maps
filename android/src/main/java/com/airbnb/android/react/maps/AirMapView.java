@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.MotionEventCompat;
+
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -752,6 +754,22 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
       heatmapMap.remove(feature.getFeature());
     }
     feature.removeFromMap(map);
+  }
+
+  public void resetMap() {
+    map.clear();
+    polylineMap.clear();
+    polygonMap.clear();
+    markerMap.clear();
+    gradientPolylineMap.clear();
+    heatmapMap.clear();
+    overlayMap.clear();
+
+    for (AirMapFeature feature : features) {
+      feature.removeFromMap(this.map);
+    }
+
+    features.removeAll(features);
   }
 
   public WritableMap makeClickEventData(LatLng point) {

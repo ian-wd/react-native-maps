@@ -1017,6 +1017,19 @@ class MapView extends React.Component<MapViewProps, State> {
     };
   }
 
+  /**
+   * Clear all added polylines, markers, overlays, polygons, etc.
+   *
+   * @return Boolean Boolean indicating if the map was cleared
+   */
+  resetMap(): Promise<Camera> {
+    if (Platform.OS === 'android') {
+      return NativeModules.AirMapModule.resetMap(this._getHandle());
+    }
+
+    return Promise.reject('getCamera not supported on this platform');
+  }
+
   private _mapManagerCommand(name: NativeCommandName) {
     return NativeModules[`${getNativeMapName(this.props.provider)}Manager`][
       name

@@ -158,5 +158,6 @@ public class AirMapPolyline extends AirMapFeature {
   @Override
   public void removeFromMap(GoogleMap map) {
     polyline.remove();
+    this.coordinates.clear();
   }
 }
